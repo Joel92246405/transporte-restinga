@@ -57,6 +57,13 @@ export default function AdminTransportes() {
       >
         + Novo Transporte
       </button>
+      
+      <button
+        className="btn btn-dark"
+        onClick={() => navigate("/admin/analytics")}
+      >
+        📊 Analytics
+      </button>
 
       <table className="table table-striped table-hover">
         <thead>

@@ -17,6 +17,7 @@ const diasSemana = [
   "sabado"
 ];
 import BannerAd from "../components/BannerAd";
+import BannerAdBottom from "../components/BannerAdBottom";
 
 export default function Home() {
   const now = new Date();
@@ -229,7 +230,7 @@ export default function Home() {
           </div>
         ))}
         <hr className="mt-5" />
-<BannerAd position="Rodapé" />
+<BannerAdBottom position="Rodapé" />
 <div className="text-center text-muted small mb-4">
   <p>
     Sistema desenvolvido por <strong>Joel Nascimento</strong><br />

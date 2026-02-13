@@ -4,7 +4,6 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import BackButton from "../components/BackButton";
 
-
 export default function AdminMesEdit() {
   const { transporteId, mesId } = useParams();
 
@@ -117,6 +116,53 @@ export default function AdminMesEdit() {
     alert("Mês salvo com sucesso!");
   }
 
+  async function replicarMes() {
+  const mesOrigem = prompt("Informe o ID do mês origem (ex: 2026_01)");
+  if (!mesOrigem) return;
+
+  try {
+    const origemRef = doc(
+      db,
+      "transportes",
+      transporteId,
+      "meses",
+      mesOrigem
+    );
+
+    const origemSnap = await getDoc(origemRef);
+
+    if (!origemSnap.exists()) {
+      alert("Mês origem não encontrado.");
+      return;
+    }
+
+    const dadosOrigem = origemSnap.data();
+
+    const novoMesId = `${year}_${month}`;
+
+    const destinoRef = doc(
+      db,
+      "transportes",
+      transporteId,
+      "meses",
+      novoMesId
+    );
+
+    await setDoc(destinoRef, {
+      ...dadosOrigem,
+      month,
+      year,
+      monthLabel,
+      ativo: true
+    });
+
+    alert("Mês replicado com sucesso!");
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao replicar mês.");
+  }
+}
+
   return (
     <div className="container mt-4">
       <h3>Edição de Mês</h3>
@@ -125,6 +171,12 @@ export default function AdminMesEdit() {
         to={`/admin/${transporteId}`} 
         label="Voltar para Meses" 
         />
+        <button
+        className="btn btn-outline-secondary btn-sm mb-3"
+        onClick={replicarMes}
+      >
+        🔁 Replicar de outro mês
+      </button>
       <div className="row mb-2">
         <div className="col-6">
             <select

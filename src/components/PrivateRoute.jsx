@@ -20,7 +20,7 @@ export default function PrivateRoute({ children }) {
   }
 
   // Se não estiver logado
-  if (!user) {
+  if (!user || !user.email) {
     return <Navigate to="/login" />;
   }
 
